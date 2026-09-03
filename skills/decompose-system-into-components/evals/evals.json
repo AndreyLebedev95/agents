@@ -1,0 +1,43 @@
+{
+  "skill_name": "decompose-system-into-components",
+  "note": "Mostly judgment-shaped. Two mechanical seams are assertable (Entity Trap detection, conjunction test) plus one behavioural check (pushing back on granularity before offering a saga). The correct decomposition of a domain has many valid answers and is not asserted.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "detects-entity-trap",
+      "prompt": "Here's the component breakdown my team came up with for the new logistics platform: ShipmentManager, CarrierManager, RouteEngine, DriverController, InvoiceProcessor, TrackingHandler. Does this look reasonable before we start building?",
+      "expected_output": "Flags all six as Entity Trap suffixes, explains the three failure modes (ambiguous names, dumping grounds, too coarse-grained), and proposes action-named replacements derived from what each would actually do. Should also note the honest exception — if this is genuinely CRUD over entities it needs a framework, not an architecture.",
+      "assertions": [
+        {"id": "flags-suffixes", "text": "Identifies the Manager/Engine/Controller/Processor/Handler suffixes as the tell for the Entity Trap"},
+        {"id": "explains-why", "text": "Explains at least two of the three failure modes: names state no role, components become dumping grounds, components grow too coarse-grained"},
+        {"id": "proposes-action-names", "text": "Proposes replacement component names based on actions performed rather than entities managed"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "applies-the-conjunction-test",
+      "prompt": "Can you sanity check this component? Here's what it's responsible for: 'The Enrollment component is responsible for validating the student application and checking prerequisite completion, and it also assigns the student to a cohort, as well as generating the tuition invoice. In addition it emails the welcome packet and provisions the student's LMS account.'",
+      "expected_output": "Runs the conjunction test, identifies each 'and'/'also'/'as well as'/'in addition' as marking a responsibility that belongs elsewhere, and extracts them into separate components — leaving validation and prerequisite checking in Enrollment and moving cohort assignment, invoicing, notification and account provisioning out.",
+      "assertions": [
+        {"id": "identifies-conjunctions", "text": "Explicitly identifies the conjunctive phrases (and / also / as well as / in addition) as the signal of too much responsibility"},
+        {"id": "extracts", "text": "Proposes at least three separate components extracted from the trailing clauses"},
+        {"id": "rewrites", "text": "Produces a rewritten responsibility statement for the original component that reads as a single responsibility"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "pushes-back-before-offering-a-saga",
+      "prompt": "We split our booking flow into four microservices — reserve-inventory, take-payment, issue-ticket, send-confirmation. Problem is we need all four to succeed or none of them. What's the best saga pattern for coordinating this?",
+      "expected_output": "Should not answer the saga question first. Treats the need for a cross-service transaction as evidence the granularity is wrong, and proposes merging the services that must transact together before reaching for a compensating-transaction framework. Only after that should it describe the saga option, with the double-failure caveat.",
+      "assertions": [
+        {"id": "granularity-first", "text": "Identifies the need for a transaction spanning services as a granularity problem before recommending any saga pattern"},
+        {"id": "proposes-merge", "text": "Proposes merging the services that must participate in the atomic transaction as the primary fix"},
+        {"id": "saga-conditional", "text": "Presents the saga as conditional on the services genuinely needing different architecture characteristics, not as the default answer"},
+        {"id": "double-failure", "text": "Notes that compensating updates can themselves fail and the design must account for it"}
+      ],
+      "files": []
+    }
+  ]
+}

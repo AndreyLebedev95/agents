@@ -1,0 +1,46 @@
+{
+  "skill_name": "analyze-architecture-risk",
+  "note": "The matrix arithmetic and the availability conversion are objectively verifiable and asserted. Which risks exist in a described architecture is judgment-shaped and is iterated qualitatively instead, checking coverage of the nine intersections rather than matching a fixed risk list.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "scores-and-bands-correctly",
+      "prompt": "Help me build a risk assessment for our new claims platform. Critical characteristics are availability, data integrity and elasticity. Domains are claims intake, adjudication and payments. What I know: the shared Postgres cluster is HA across three nodes and has never gone down in two years, but if it did, everything stops. Adjudication uses a rules engine nobody currently on the team has worked with — it came with an acquisition. Payments talks to a third-party clearinghouse we have no visibility into. Intake gets hammered during open enrolment, maybe 15x normal volume for three weeks.",
+      "expected_output": "A criteria-by-context matrix with impact×likelihood scores, correctly banded. Database availability should score high impact and low likelihood, landing at 3 (medium). The unfamiliar rules engine must be rated 9 automatically because nobody knows it. The clearinghouse should be flagged as needing an SLA lookup rather than a guessed likelihood, or rated high pending confirmation. Row and column totals present.",
+      "assertions": [
+        {"id": "impact-first", "text": "Scores impact before likelihood, and shows the database landing at 3 (high impact 3 x low likelihood 1) rather than being rated high overall"},
+        {"id": "unknown-tech-nine", "text": "Rates the unfamiliar rules engine 9 explicitly because no one on the team knows the technology, and states that the matrix cannot be applied to it"},
+        {"id": "bands-correct", "text": "Applies the correct bands throughout: 1-2 low, 3-4 medium, 6-9 high"},
+        {"id": "totals", "text": "Produces both row totals (which kind of risk dominates) and column totals (which domain needs effort)"},
+        {"id": "unknown-likelihood-high", "text": "For the third-party clearinghouse, either defaults likelihood to high pending confirmation or directs the reader to find the published SLA rather than guessing"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "checks-mitigation-actually-removes-the-failure",
+      "prompt": "Risk storming turned up that our document-generation service falls over during month-end close — it can only render about 200 PDFs a minute and finance kicks off 30,000 statements at once on the last business day. My plan is to put a message queue in front of it so requests buffer instead of failing. Does that solve it?",
+      "expected_output": "No. The queue is a good practice and adds a backpressure point, and it does not remove the failure — finance still waits hours for statements and downstream deadlines still miss. Should walk the escalation: buffer, then prioritize, then reduce demand (pre-generate off-peak, cache unchanged statements, batch overnight). Should state the general rule that a mitigation must be re-tested against the specific failure, and that eliminating demand beats buffering it.",
+      "assertions": [
+        {"id": "rejects-as-insufficient", "text": "States that the queue does not remove the risk, only relocates or delays the failure"},
+        {"id": "names-the-specific-failure", "text": "Re-states the specific failure that can still occur after the mitigation (statements still not delivered in time), rather than answering in the abstract"},
+        {"id": "escalates", "text": "Offers at least one demand-reducing mitigation (pre-generation, caching, off-peak batching) rather than only buffering or scaling"},
+        {"id": "states-the-rule", "text": "Articulates the general rule that each mitigation must be re-checked against whether the specific failure can still occur"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "audits-intersections-not-just-the-design",
+      "prompt": "We designed a nice event-driven architecture for our logistics platform and got sign-off six months ago. It's technically fine — I've reviewed the topology myself several times. But it keeps not working: releases slip, two teams are constantly blocked on each other, ops says they can't support it, and legal has started asking questions about where the event payloads are stored. What am I missing?",
+      "expected_output": "The design is not the problem — the alignment is. Should walk the intersections rather than re-reviewing the topology: team topologies (technically partitioned teams against a style whose domains span processors), engineering practices (releases slipping suggests the pipeline cannot support the style), infrastructure (ops cannot support it — the capability-versus-delivery gap), the enterprise (legal/standards), and data topologies (payload storage). Should say explicitly that a technically excellent architecture misaligned with the enterprise gets scrapped.",
+      "assertions": [
+        {"id": "reframes-as-alignment", "text": "Identifies the problem as alignment with the surrounding environment rather than a defect in the architecture itself"},
+        {"id": "covers-multiple-intersections", "text": "Audits at least four distinct intersections (from: implementation, infrastructure, data topologies, engineering practices, team topologies, systems integration, enterprise, business environment, generative AI)"},
+        {"id": "infrastructure-gap", "text": "Names the specific principle that a style capable of a characteristic does not deliver it unless the infrastructure supports it"},
+        {"id": "enterprise-consequence", "text": "Notes that misalignment with enterprise standards typically results in the solution being scrapped as a one-off regardless of technical quality"}
+      ],
+      "files": []
+    }
+  ]
+}

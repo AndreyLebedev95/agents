@@ -1,0 +1,47 @@
+{
+  "skill_name": "record-architecture-decisions",
+  "note": "The most assertable of the set alongside governance, because the output has a fixed shape. The quality of the trade-off reasoning itself is judgment-shaped and iterated qualitatively.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "produces-a-complete-record",
+      "prompt": "We just decided to move our reporting reads off the primary Postgres onto a read replica that syncs asynchronously, because month-end reporting queries were locking up order intake. Write this up properly — my lead keeps telling me my decision docs are useless six months later.",
+      "expected_output": "A complete record with all seven sections. Decision in affirmative commanding voice ('We will...'). Both a technical justification (read/write contention, lock behaviour) and a business justification (order intake is revenue-blocking). Consequences carrying the trade-off — replica lag means reports see stale data, and how stale is acceptable. Compliance naming a concrete mechanism. Notes with metadata fields.",
+      "assertions": [
+        {"id": "seven-sections", "text": "Contains all seven sections: Title, Status, Context, Decision, Consequences, Compliance, Notes"},
+        {"id": "commanding-voice", "text": "The Decision section is written in affirmative commanding voice ('We will...') rather than as an opinion or recommendation"},
+        {"id": "both-justifications", "text": "Contains both a technical justification and a separate business justification"},
+        {"id": "consequences-has-tradeoff", "text": "The Consequences section records the trade-off accepted (replication lag / stale reporting data), not only the benefits"},
+        {"id": "compliance-concrete", "text": "The Compliance section names a specific mechanism for detecting violation rather than saying governance is needed"},
+        {"id": "context-names-alternatives", "text": "The Context section names at least one alternative that was considered"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "weights-rather-than-counts",
+      "prompt": "I built a comparison for whether our shared audit-logging logic should be a library or a service. Library wins 5 factors to 2 — it beats the service on versioning, change risk, performance, fault tolerance and scalability, and loses on heterogeneous code and code volatility. So library it is, right? Context you might want: we run Java, Go and Python services, and the audit format changes roughly monthly because of new compliance requirements.",
+      "expected_output": "No — the two factors the library loses on are exactly the two that dominate this context. Three language stacks means three library versions kept in sync; monthly format changes means recompiling and redeploying every service each month. Should conclude the service is correct here despite losing on count, name this as the weighting failure, and note the bonus that the team already knows which issues to mitigate.",
+      "assertions": [
+        {"id": "rejects-the-count", "text": "Does not accept the 5-2 count as decisive, and explicitly identifies that the factors have not been weighted"},
+        {"id": "reverses-conclusion", "text": "Concludes that the shared service is the better choice in this specific context"},
+        {"id": "cites-both-factors", "text": "Connects the reversal to both stated context facts: three technology stacks (heterogeneous code) and monthly changes (code volatility)"},
+        {"id": "names-the-principle", "text": "States that generic trade-off analysis is only valuable when weighted for a specific context"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "supersession-and-significance",
+      "prompt": "Two things. First, back in ADR 31 we said all inter-service comms would be gRPC for latency reasons. We're now moving to REST for the public-facing subset because partners can't consume gRPC easily. How do I record that without losing the reason we picked gRPC? Second, unrelated — my lead says choosing Kafka over RabbitMQ isn't an architecture decision because it's 'just a product choice'. Is he right?",
+      "expected_output": "First: a new record superseding 31, with both records marked in both directions, and the new record's Context preserving why gRPC was chosen so the latency rationale is not lost. Should note the partial scope (public-facing subset only), which means this may be a scoped supersession rather than a full one. Second: the lead is wrong if the broker choice affects a characteristic that matters — the significance test is structure, characteristics, dependencies, interfaces or construction techniques, and naming a product does not make a decision merely technical.",
+      "assertions": [
+        {"id": "bidirectional-supersession", "text": "Marks supersession in both directions — the old record as superseded by the new, and the new record as superseding the old"},
+        {"id": "preserves-rationale", "text": "Preserves the original latency rationale in the new record rather than discarding it, so the reason gRPC was chosen is not lost"},
+        {"id": "corrects-the-lead", "text": "States that a decision naming a specific technology can still be architecturally significant, and gives the significance test"},
+        {"id": "lists-significance-criteria", "text": "Names the significance criteria: structure, non-functional characteristics, dependencies, interfaces, construction techniques"}
+      ],
+      "files": []
+    }
+  ]
+}

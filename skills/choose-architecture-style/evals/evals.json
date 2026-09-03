@@ -1,0 +1,45 @@
+{
+  "skill_name": "choose-architecture-style",
+  "note": "Style selection has no correct answer — it has a least-worst set of trade-offs contingent on context an eval cannot supply. Scoring 'did it pick microservices' would measure nothing and would train exactly the best-practice reflex this skill argues against. So the assertions cover only the mechanical seams: quantum counting and the two arithmetic checks. Everything else is iterated qualitatively.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "counts-quanta-correctly",
+      "prompt": "Sanity-check my architecture. Four separately deployed services — catalog, cart, checkout, fulfilment — each in its own container, all communicating over async messaging via RabbitMQ. Catalog and cart share a Postgres instance; checkout and fulfilment each have their own. Checkout does a request-reply to catalog to confirm price before it can complete an order. How many architecture quanta do I actually have, and does this give me independent scalability?",
+      "expected_output": "Not four. Catalog and cart share a database so they are one quantum. Checkout cannot proceed without catalog's reply, so that blocking request-reply fuses checkout into the same quantum despite the messaging. That leaves two quanta: {catalog, cart, checkout} and {fulfilment}. Should state that async messaging alone does not create a boundary and that the test is what cannot proceed when something else is unavailable.",
+      "assertions": [
+        {"id": "not-four", "text": "Does not answer four quanta"},
+        {"id": "shared-db-collapses", "text": "Identifies that catalog and cart sharing a database places them in the same quantum"},
+        {"id": "request-reply-collapses", "text": "Identifies that the blocking request-reply from checkout to catalog fuses them into one quantum despite asynchronous messaging"},
+        {"id": "states-the-test", "text": "States the counting test: what cannot proceed when something else is unavailable"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "computes-collision-and-bandwidth-arithmetic",
+      "prompt": "We're planning a space-based architecture for a flash-sale platform. Planning numbers: 8 processing unit instances sharing an inventory cache of 20,000 rows, expecting 50 updates/second at peak, and our measured replication latency in prod is 40ms. Is replicated caching viable here or do we need a distributed cache? Separately — our product service returns a 300KB payload with the full product record, and the pricing service calls it 1,500 times a second but only reads the 150-byte price field. Is that worth fixing?",
+      "expected_output": "Applies CollisionRate = N × (UR²/S) × RL to get 8 × (2500/20000) × 40 = 40 collisions/hour against 180,000 updates/hour, roughly 0.022% — and should note the cache is under the 100MB replicated threshold but that peak update rate is the deciding input. For the second question: 300KB × 1,500/s ≈ 450,000 KB/s versus 150 bytes × 1,500/s ≈ 225 KB/s, a factor of about 2,000, and names it stamp coupling with the fix list.",
+      "assertions": [
+        {"id": "applies-formula", "text": "Applies the collision formula N × (UR²/S) × RL with the given values and produces a numeric collision rate"},
+        {"id": "peak-not-average", "text": "Notes that the peak update rate rather than the average is the deciding input, and that measured replication latency (not a planning default) should be used"},
+        {"id": "bandwidth-arithmetic", "text": "Computes the bandwidth of the fat payload versus the needed field and states the ratio"},
+        {"id": "names-stamp-coupling", "text": "Identifies the second problem as stamp coupling and offers concrete fixes such as field selectors, private endpoints or consumer-driven contracts"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "rules-out-on-context-not-fashion",
+      "prompt": "I'm the new architect at a 40-person insurance brokerage. We're replacing a 12-year-old VB6 desktop app for policy quoting. The domain is multipage quote forms where every page depends on answers from the previous pages. About 60 internal users, no public access. Finance has frozen headcount and told us explicitly there's no budget for new infrastructure. Our two devs have never used containers and we have no CI pipeline. Everyone keeps telling me microservices. What should we actually build?",
+      "expected_output": "Rules out microservices on at least three independent grounds and says so before proposing anything: heavy semantic coupling in the domain (each page depends on prior context) maps badly onto a decoupled architecture; the company's cost position rules out the expensive distributed styles; and the engineering maturity — no containers, no CI — cannot support a style that presumes automated provisioning, testing and deployment. 60 users needs no distribution at all. Should propose a monolithic style and justify the pick.",
+      "assertions": [
+        {"id": "rules-out-microservices", "text": "Explicitly rules out microservices rather than hedging"},
+        {"id": "semantic-coupling", "text": "Identifies the multipage dependent-form domain as heavily semantically coupled and therefore a poor fit for a decoupled architecture"},
+        {"id": "cost-and-maturity", "text": "Cites both the organization's cost position and the team's engineering maturity (no CI, no containers) as disqualifying inputs, not just the technical fit"},
+        {"id": "proposes-monolith", "text": "Proposes a monolithic style and gives the characteristics-based reason for the specific one chosen"}
+      ],
+      "files": []
+    }
+  ]
+}

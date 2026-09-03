@@ -1,0 +1,44 @@
+{
+  "skill_name": "elicit-architecture-characteristics",
+  "note": "Three assertions only. Which characteristics are correct for a given system is a judgment call with no single right answer, so scoring the set itself would measure nothing. These three check the mechanics that are objectively verifiable.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "caps-the-list-and-picks-top-three",
+      "prompt": "We're building the backend for a national pharmacy chain's prescription refill system. Requirements doc says: patients request refills through the app or by phone; pharmacists review and approve each request; the system checks the prescription is still valid and has refills remaining; it checks for drug interactions against the patient's other active prescriptions; it notifies the patient when the refill is ready; it handles insurance pre-authorization through a third-party clearinghouse. Users: roughly 40,000 patients a day nationally, spiking around flu season. Additional context: HIPAA applies, the chain is being acquired next year, and they've told us the budget is tight. What architecture characteristics does this need?",
+      "expected_output": "A driving-characteristics list of at most seven with exactly three marked as top, each with an operational definition, each labelled explicit/implicit/translated, plus an 'others considered' section. Should surface implicit characteristics the requirements never state (data integrity around drug interactions, auditability, availability) and should translate 'being acquired next year' into interoperability/adaptability/extensibility and 'budget is tight' into simplicity/feasibility.",
+      "assertions": [
+        {"id": "cap", "text": "The driving-characteristics list contains no more than 7 entries"},
+        {"id": "top3", "text": "Exactly three characteristics are marked as the top three, and they are presented unranked rather than ordered 1-2-3 by priority"},
+        {"id": "operational-definitions", "text": "Every characteristic in the driving list has an operational definition specific to this system rather than only a name"},
+        {"id": "implicit-surfaced", "text": "At least one characteristic is labelled implicit — inferred from the domain rather than stated in the requirements"},
+        {"id": "translation", "text": "At least one characteristic is traced back to a business concern from the Additional context (acquisition or budget) rather than to a functional requirement"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "decomposes-a-composite",
+      "prompt": "Our VP keeps saying the new claims platform has to be 'agile' above everything else — he means we need to ship changes fast because regulations change constantly. How do I turn that into something I can actually design against and measure?",
+      "expected_output": "Recognizes agility as a composite with no direct measure and decomposes it into deployability, modularity and testability, each with an objective measurement. Should also warn against designing for only one part of the composite, and should pair the measures with the end-to-end path (code change to production) rather than code-change speed alone.",
+      "assertions": [
+        {"id": "identifies-composite", "text": "Explicitly identifies agility as a composite characteristic that has no single objective measure"},
+        {"id": "decomposes", "text": "Decomposes it into at least deployability and testability, and gives an objective measurement for each part"},
+        {"id": "end-to-end", "text": "Notes that the characteristic must be traced end to end (change to production), not measured at the code stage alone"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "converts-vernacular-and-pushes-back",
+      "prompt": "Product sponsor is adamant that our internal expense-approval tool needs five nines of availability. It's used by about 900 employees during business hours, Monday to Friday. She doesn't take being corrected well. How should I handle this?",
+      "expected_output": "Converts five nines to 5 min 35 sec/year (about 1 second a day) and three nines to 8 hrs 46 min/year (86 sec/day), checks the target against the domain's idle windows (nights and weekends, business-hours-only usage), validates the concern before challenging the number, and suggests qualifying the requirement to the part of the system that genuinely needs it. Should hold cost as a last resort rather than opening with it.",
+      "assertions": [
+        {"id": "converts-correctly", "text": "Converts 99.999% to approximately 5 minutes 35 seconds per year, and states at least one comparison tier correctly (99.9% = ~8 hrs 46 min/year)"},
+        {"id": "checks-idle-window", "text": "Checks the availability target against the domain's actual usage window (business hours only, weekdays) rather than accepting the target as given"},
+        {"id": "validates-first", "text": "Recommends validating the sponsor's underlying concern before challenging the number"}
+      ],
+      "files": []
+    }
+  ]
+}

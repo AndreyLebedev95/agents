@@ -1,0 +1,44 @@
+{
+  "skill_name": "govern-architecture-with-fitness-functions",
+  "note": "The most assertable of the set, because the output is code plus a plan with a fixed shape. Includes a negative case where the correct answer is 'this cannot be automatically checked'.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "produces-a-real-layer-assertion",
+      "prompt": "We have a Spring Boot monolith, Java 21, packages are com.acme.billing.web / com.acme.billing.service / com.acme.billing.repo. The rule is supposed to be that web never touches repo directly — everything goes through service. Two devs have broken it in the last month because it's faster for simple lookups and nobody notices until code review. What do I do?",
+      "expected_output": "An ArchUnit layered-architecture assertion naming the three packages and declaring the permitted access, wired into the build. Should say explicitly that code review is the wrong mechanism for a violation that accrues continuously, and should include the baseline/gaming considerations from the plan format.",
+      "assertions": [
+        {"id": "produces-code", "text": "Produces an actual ArchUnit assertion (not a description of one) that defines the three layers by package and declares which layers may access which"},
+        {"id": "correct-direction", "text": "The assertion permits service to be accessed by web, and repo to be accessed by service, and does not permit web to access repo"},
+        {"id": "build-not-review", "text": "States that this belongs in the continuous build rather than in code review, and gives the reason (violations that accrue in small increments are caught too late by periodic inspection)"},
+        {"id": "names-mechanism", "text": "Output includes what runs the check and when it fails, not only the code"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "baselines-rather-than-imports-a-threshold",
+      "prompt": "Management wants us to 'get cyclomatic complexity under 10' across our claims-processing codebase. It's an insurance rating engine so a lot of the functions genuinely are complicated. How should I set this up in CI?",
+      "expected_output": "Baselines current values on this codebase and governs against regression rather than asserting an absolute 10. Explains that no metric distinguishes essential from accidental complexity, so an absolute threshold cannot know which it is looking at — particularly relevant for a rating engine. Should give the three interpretation questions for a high score and mention the under-5 preference as a secondary signal, not the rule.",
+      "assertions": [
+        {"id": "baseline-first", "text": "Recommends establishing a baseline on this specific codebase and governing against movement from it, rather than asserting the absolute threshold of 10"},
+        {"id": "essential-vs-accidental", "text": "Explains that cyclomatic complexity cannot distinguish essential complexity (hard problem) from accidental complexity (poor code), and connects this to the insurance rating domain"},
+        {"id": "interpretation-questions", "text": "Gives the interpretation path for a high score: hard problem, poor coding, or poor partitioning"},
+        {"id": "formula-or-thresholds", "text": "States the industry threshold of 10 and the stricter preference of 5, without presenting either as automatically correct"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "recognizes-what-cannot-be-automated",
+      "prompt": "We've got a plug-in architecture and the whole point is that the core stays stable and all the volatility lives in the plug-ins. I want a CI check that catches it when someone starts putting churn back into the core. Also I want to verify that each plug-in is genuinely only doing its declared job and not reaching sideways into other plug-ins.",
+      "expected_output": "Two different answers for two different problems. Core stability is invisible to static analysis and must be sourced from version-control churn over a window, alarming on a rise. Plug-in-to-plug-in access IS statically checkable as a pairwise restriction. Whether a plug-in is 'doing its declared job' is not automatable at all and should fall back to role tagging.",
+      "assertions": [
+        {"id": "vcs-for-churn", "text": "Recommends sourcing the core-stability check from version-control history/churn rather than from code analysis, and explains why code analysis cannot answer it"},
+        {"id": "static-for-access", "text": "Recommends a static pairwise access restriction for plug-in-to-plug-in dependencies, and produces or describes the assertion"},
+        {"id": "admits-unautomatable", "text": "Identifies that verifying a component is doing its declared role cannot be automatically checked, and offers role tagging as the fallback rather than inventing a check"}
+      ],
+      "files": []
+    }
+  ]
+}

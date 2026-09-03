@@ -1,0 +1,46 @@
+{
+  "skill_name": "negotiate-architecture-decisions",
+  "note": "Deliberately judgment-shaped. Negotiation quality cannot be scored by assertion — the same phrasing succeeds with one counterparty and fails with another, and inventing pass/fail criteria would manufacture false rigor. Iterated qualitatively against worked scenarios. One mechanical exception is asserted: the nines conversion must be correct, because a wrong downtime figure loses the negotiation it was meant to win.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "stakeholder-sequence-and-conversion",
+      "prompt": "Our COO has decided the new partner portal needs 'zero downtime, no excuses'. It's used by about 300 partner firms, mostly during European business hours, to submit claims documents. She's not technical but thinks she is, and she really doesn't like being told she's wrong in front of people. I have a meeting with her Thursday. How do I approach it?",
+      "expected_output": "Reads 'zero downtime' as availability being the real concern rather than a literal requirement. Converts tiers to actual downtime figures. Validates the concern before challenging anything. Checks the target against the domain's usage window (European business hours, 300 firms). Applies divide-and-conquer — does the whole portal need it, or just document submission? Holds cost for last. Should produce actual phrasing, not advice about phrasing, and should account for the do-not-correct-me-in-public constraint.",
+      "assertions": [
+        {"id": "nines-correct", "text": "Any availability figures quoted are correct: 99.9% is approximately 8 hrs 46 min/year, 99.99% is approximately 52 min 33 sec/year, 99.999% is approximately 5 min 35 sec/year"},
+        {"id": "reads-the-buzzword", "text": "Treats 'zero downtime' as a signal that availability is the concern rather than as a literal requirement to be met or refused"},
+        {"id": "validates-first", "text": "Opens by validating the concern before introducing any numbers or challenge"},
+        {"id": "cost-last", "text": "Does not open with cost or time; holds them as a last resort"},
+        {"id": "gives-actual-phrasing", "text": "Provides specific sentences the architect could say, not only a description of the approach"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "developer-phrasing-and-buy-in",
+      "prompt": "One of my devs keeps bypassing the service layer and querying the read replica directly from the controllers because it's faster for simple lookups. I've told him twice not to. He's a good engineer and he's getting irritated with me. Also, separately, he's been lobbying hard for us to move the whole team to a different ORM and it's becoming a distraction. How do I handle both?",
+      "expected_output": "For the bypass: justification before demand, and 'this means' rather than 'you must' — and should note that being told twice without a stated reason is the actual problem. Should expect and welcome the follow-up question about how to make simple lookups fast within the constraint. For the ORM lobbying: ask for a business justification rather than refusing, and explain why that converts rather than escalates. Should produce actual dialogue.",
+      "assertions": [
+        {"id": "justification-first", "text": "Recommends stating the reason before the demand, and explains why (people stop listening once they hear something they disagree with)"},
+        {"id": "avoids-commanding-voice", "text": "Replaces commanding phrasing ('you must') with a statement of fact or a question, and gives the actual wording"},
+        {"id": "business-justification-not-refusal", "text": "For the ORM issue, recommends asking for a business justification rather than refusing or overruling"},
+        {"id": "explains-the-mechanism", "text": "Explains why asking for a business justification works — it makes the advocate confront cost, budget and timeline themselves"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "architect-deadlock",
+      "prompt": "The other architect on my programme insists that synchronous REST between our order and inventory services will outperform the async messaging I've proposed. His evidence is a blog post and something ChatGPT told him. I'm senior to him. I've got a steering committee in a week and I need this settled.",
+      "expected_output": "Demonstration defeats discussion — build the comparison in a production-like environment and show the result, and note specifically that a blog post or generated answer cannot settle it because every environment differs, which is the weakness in his evidence. Should explicitly counsel against pulling rank despite the seniority, on the grounds that it damages the relationship and that flows down to the development teams. Should mention de-escalation if it turns personal.",
+      "assertions": [
+        {"id": "demonstration", "text": "Recommends demonstrating the comparison in a production-like environment rather than continuing to argue"},
+        {"id": "why-external-evidence-fails", "text": "Explains that a blog post or generated answer rarely settles this because every environment is different"},
+        {"id": "counsels-against-rank", "text": "Explicitly advises against overruling by seniority, and gives the consequence (animosity, and the effect on the development teams)"},
+        {"id": "de-escalation", "text": "Mentions stopping and re-engaging later if the exchange becomes personal or heated"}
+      ],
+      "files": []
+    }
+  ]
+}

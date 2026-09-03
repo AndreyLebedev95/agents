@@ -1,0 +1,141 @@
+{
+  "version": 3,
+  "skills": {
+    "frontend-ui-engineering": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
+      "skillPath": "skills/frontend-ui-engineering/SKILL.md",
+      "skillFolderHash": "893e7558baef6a0773aec4c152ca8bccd544fa03",
+      "installedAt": "2026-08-12T12:15:57.485Z",
+      "updatedAt": "2026-08-12T12:15:57.485Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
+      "installedAt": "2026-08-12T12:16:14.620Z",
+      "updatedAt": "2026-08-12T12:16:14.620Z"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
+      "installedAt": "2026-08-12T12:22:48.363Z",
+      "updatedAt": "2026-08-12T12:22:48.363Z"
+    },
+    "react-doctor": {
+      "source": "millionco/react-doctor",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/millionco/react-doctor.git",
+      "skillPath": "skills/react-doctor/SKILL.md",
+      "skillFolderHash": "a46946b573d7f317f327f1443ea91c524c29c097",
+      "installedAt": "2026-08-12T12:24:32.412Z",
+      "updatedAt": "2026-08-12T12:24:32.412Z"
+    },
+    "react-state-management": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/wshobson/agents.git",
+      "skillPath": "plugins/frontend-mobile-development/skills/react-state-management/SKILL.md",
+      "skillFolderHash": "01345515dfb8530d0813cfff2c73e36c6b23fea3",
+      "installedAt": "2026-08-12T12:24:41.932Z",
+      "updatedAt": "2026-08-12T12:24:41.932Z"
+    },
+    "react-dev": {
+      "source": "softaworks/agent-toolkit",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/softaworks/agent-toolkit.git",
+      "skillPath": "skills/react-dev/SKILL.md",
+      "skillFolderHash": "71dc3ea9be90252ed83db3b13a686406f3b73abe",
+      "installedAt": "2026-08-12T12:24:56.491Z",
+      "updatedAt": "2026-08-12T12:24:56.491Z"
+    },
+    "prisma-postgres": {
+      "source": "prisma/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/prisma/skills.git",
+      "skillPath": "prisma-postgres/SKILL.md",
+      "skillFolderHash": "b517132fe3464f226ac13c90f570af9cfdf8389e",
+      "installedAt": "2026-08-12T12:45:20.725Z",
+      "updatedAt": "2026-08-12T12:45:20.725Z"
+    },
+    "prisma-postgres-setup": {
+      "source": "prisma/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/prisma/skills.git",
+      "skillPath": "prisma-postgres-setup/SKILL.md",
+      "skillFolderHash": "15a1ca58d420397d3c769f28d27f010d7a884f61",
+      "installedAt": "2026-08-12T12:45:20.727Z",
+      "updatedAt": "2026-08-12T12:45:20.727Z"
+    },
+    "sigma": {
+      "source": "sanyuan0704/sanyuan-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/sanyuan0704/sanyuan-skills.git",
+      "skillPath": "skills/sigma/SKILL.md",
+      "skillFolderHash": "f66fcdefe6801e8c70f8e172d52faa6445e37ab5",
+      "installedAt": "2026-08-12T12:50:02.504Z",
+      "updatedAt": "2026-08-12T12:50:02.504Z"
+    },
+    "code-review-expert": {
+      "source": "sanyuan0704/sanyuan-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/sanyuan0704/sanyuan-skills.git",
+      "skillPath": "skills/code-review-expert/SKILL.md",
+      "skillFolderHash": "d3ff60f85c38178f30c5fe25a396030fb74bc859",
+      "installedAt": "2026-08-12T12:50:02.507Z",
+      "updatedAt": "2026-08-12T12:50:02.507Z"
+    },
+    "book-study": {
+      "source": "sanyuan0704/sanyuan-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/sanyuan0704/sanyuan-skills.git",
+      "skillPath": "skills/book-study/SKILL.md",
+      "skillFolderHash": "10fed459876e355439f30fbd6ff7823de210e856",
+      "installedAt": "2026-08-12T12:50:02.509Z",
+      "updatedAt": "2026-08-12T12:50:02.509Z"
+    },
+    "caveman": {
+      "source": "juliusbrussee/caveman",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/juliusbrussee/caveman.git",
+      "skillPath": "skills/caveman/SKILL.md",
+      "skillFolderHash": "bdf0c87a2bdd47fc7fe9008c40cc6491ee801b81",
+      "installedAt": "2026-08-20T14:46:49.143Z",
+      "updatedAt": "2026-08-20T14:46:49.143Z"
+    },
+    "caveman-compress": {
+      "source": "juliusbrussee/caveman",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/juliusbrussee/caveman.git",
+      "skillPath": "skills/caveman-compress/SKILL.md",
+      "skillFolderHash": "93f72d3b21f227a8cc9d851325d474886e16dc0b",
+      "installedAt": "2026-08-20T14:46:49.144Z",
+      "updatedAt": "2026-08-20T14:46:49.144Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "antigravity-cli",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed",
+    "claude-code"
+  ]
+}

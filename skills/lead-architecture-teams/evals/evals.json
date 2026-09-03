@@ -1,0 +1,45 @@
+{
+  "skill_name": "lead-architecture-teams",
+  "note": "Judgment-shaped with two mechanical seams. Diagnosing why a described team is struggling has no single right answer, so it is iterated qualitatively — checking only that the diagnosis distinguishes too-tight from too-loose rather than defaulting to 'communicate more'. The involvement scale arithmetic and the checklist qualifying test are assertable.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "scores-the-involvement-scale",
+      "prompt": "I've just been made architect across two projects and I'm trying to work out where to put my time. Project A: five devs who've shipped three products together, all senior, building an internal reporting tool, six weeks to deliver. Project B: fourteen devs, half of them graduates hired in the last quarter, nobody's worked together before, it's a real-time pricing engine, and we've got eighteen months. Where should I be?",
+      "expected_output": "Scores both across the five factors. Project A totals strongly negative — stay hands-off, answer questions, confirm they're on track. Project B totals strongly positive — mentor and coach with day-to-day involvement. Critically, must handle duration correctly: A's six weeks pushes toward LESS involvement (the team already has urgency), B's eighteen months pushes toward MORE (no urgency, needs schedule discipline and complex-tasks-first sequencing). Should also flag that 14 devs may itself be a size problem.",
+      "assertions": [
+        {"id": "scores-five-factors", "text": "Scores both projects across all five factors: team familiarity, team size, overall experience, project complexity, project duration"},
+        {"id": "duration-direction", "text": "Treats the short duration as pushing toward LESS involvement and the long duration as pushing toward MORE, and explains the reasoning rather than just asserting it"},
+        {"id": "opposite-conclusions", "text": "Concludes hands-off facilitation for Project A and mentoring/coaching involvement for Project B"},
+        {"id": "flags-team-size", "text": "Notes that fourteen developers exceeds the large-team threshold and may need splitting or parallel work streams, rather than only more architect attention"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "distinguishes-too-tight-from-too-loose",
+      "prompt": "My team is miserable. Two people have quit in three months, the ones left are visibly frustrated, and velocity has fallen off a cliff. I've been giving them a lot of latitude — I set the high-level architecture and let them figure out the rest, I don't want to be one of those architects who micromanages. What's going wrong?",
+      "expected_output": "Should recognize that both too-tight and too-loose constraints present identically as frustration, and that the described behaviour points at too-loose rather than too-tight. Diagnostic questions to confirm: are they running lots of proofs of concept, struggling over design decisions, effectively making architecture decisions themselves? Fix is to provide the missing decisions and boundaries — which is not micromanagement. Should also probe whether the architect is drifting toward armchair (not enough time with the team).",
+      "assertions": [
+        {"id": "names-both-causes", "text": "States that too many constraints and too few constraints both present as team frustration and must be distinguished before acting"},
+        {"id": "diagnoses-too-loose", "text": "Diagnoses this case as too-loose rather than too-tight, based on the stated latitude"},
+        {"id": "asks-confirming-questions", "text": "Offers specific diagnostic signals to confirm (excessive proofs of concept, struggling over design decisions, developers making architecture decisions)"},
+        {"id": "reframes-guidance", "text": "Distinguishes providing decisions and boundaries from micromanaging, rather than accepting the user's framing that more guidance equals micromanagement"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "applies-the-checklist-qualifying-test",
+      "prompt": "I want to introduce some checklists. Candidates: (1) the steps to onboard a new microservice — register in service catalog, then request a namespace, then get the namespace approved, then deploy, then add to the dashboard; (2) things people forget before marking a PR ready — absorbed exceptions, our logging annotation, formatting; (3) how to run our weekly deploy, which we've done 200 times without incident. Which of these should be checklists?",
+      "expected_output": "Only (2). Item (1) is a procedural flow of dependent tasks — a procedure, not a checklist, since the namespace cannot be approved before it is requested. Item (3) is simple, familiar and executed frequently without error, so it does not qualify. Item (2) has no set order, no dependencies, and is exactly the frequently-skipped category. Should also note the automate-and-delete rule for formatting, and the feedback loop.",
+      "assertions": [
+        {"id": "rejects-procedural", "text": "Rejects the onboarding sequence as a procedure rather than a checklist, because the tasks are order-dependent"},
+        {"id": "rejects-error-free-routine", "text": "Rejects the weekly deploy on the grounds that it is simple, familiar and executed frequently without error"},
+        {"id": "accepts-the-right-one", "text": "Accepts the pre-PR list as the qualifying candidate, and connects it to the frequently-skipped criterion"},
+        {"id": "automate-and-delete", "text": "Notes that automatable items such as formatting should be automated and removed from the list rather than checklisted"}
+      ],
+      "files": []
+    }
+  ]
+}
