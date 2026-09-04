@@ -48,6 +48,16 @@ stateDiagram-v2
 
 **6. The history questions** the model must be able to answer.
 
+### How the states are represented
+
+The transition table says which moves are legal. What stops an *illegal* state existing in the first place is how the states are represented, and the default representation defeats the whole exercise.
+
+A single record carrying the lifecycle in flags — `isValidated`, `isPriced`, an optional `amountToBill` — fails three ways: the states are implicit so every reader needs conditional code; data belonging to one state must be made optional because other states lack it; and nothing ties a field to the flag governing it, so `{ status: Placed, amountToBill: 500 }` is constructible and meaningless.
+
+Give each state its own type carrying exactly its own data, then define the concept as a closed choice across them. A state with no data of its own needs no type, just a case. Then a step can demand the state it requires, and the ordering in your transition table stops being a convention people respect and becomes something that is checked.
+
+`make-illegal-states-unrepresentable` covers this in full, including how to gate a state so only the transition that grants it can construct it.
+
 ## Step 1 — Ask what history is worth
 
 Before designing anything, write down the questions the business will ask about the past. How many retries preceded success? How long did each phase take? Which devices failed and were they the same ones as last time? Was this halted by a human or by a threshold?
@@ -188,6 +198,10 @@ Process managers are commonly implemented as aggregates themselves, with their o
 
 - `references/event-types.md` — the three event types with selection rules, payload shapes, and what each cannot do. Read when deciding what crosses a boundary.
 - `references/event-sourcing-operations.md` — projections, replay, version semantics, snapshot thresholds and when they are premature, sharding, deletion under privacy rules, and the two ways to backfill history with what each costs. Read only when events are becoming the source of truth.
+
+## Related
+
+For representing the states themselves so contradictory combinations cannot be built, use `make-illegal-states-unrepresentable`. For the steps of a *process* — what each consumes, produces, depends on and how it fails — use `model-workflow-as-type-pipeline`; that skill covers the pipeline, this one covers the entity's states and the events recording them, and a long-running workflow needs both.
 
 ## Worth reading
 

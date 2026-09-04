@@ -59,6 +59,13 @@ This is the step people skip, and skipping it makes every later decision arbitra
 
 Invariants are also under-stated in interviews, because they are too obvious to the business to mention. Incident history is the richest source: every "we had to correct that by hand" describes an invariant nothing was enforcing.
 
+**Then sort them into two piles**, because they have different remedies and only one of them belongs to this skill:
+
+- **Invariants a type's shape can carry.** "At least one line" is structural — a collection defined as one element plus the rest cannot be empty. "Either provisioned with a firmware version, or unprovisioned with none" is structural too, once the states are separate types. These need no runtime check, no command to guard them, and no test. Encode them and they are gone. That work is `make-illegal-states-unrepresentable`.
+- **Invariants that span several objects, or depend on data outside any one of them.** "The order total equals the sum of its lines." "A device cannot join a fleet already at capacity." These cannot be encoded in a shape; they need a boundary that owns them and a command that enforces them. Those are the ones this skill is about.
+
+Doing the first pile first is worth the detour: it usually shrinks the second pile substantially, and an invariant that no longer exists is cheaper than one enforced correctly.
+
 ## Step 3 — Draw the boundary with the strong-consistency test
 
 Keep aggregates as small as the invariants allow. Include only the data the aggregate's own logic requires to be **strongly consistent**; everything that may be eventually consistent belongs outside, in another aggregate, referenced by id.
@@ -158,6 +165,10 @@ The licence here is to *decide*, not to skip deciding. Evaluate the business imp
 ## Bundled references
 
 - `references/refactoring-to-aggregates.md` — the compiler-first migration from setter-driven objects into aggregates, in order, and what to do when the logic already spans several codebases. Read when an entity model already exists and has to be reshaped.
+
+## Related
+
+Before drawing consistency boundaries, run the entity's own fields through `make-illegal-states-unrepresentable`. A field that cannot hold a contradictory value is one fewer thing for an aggregate to guard, and flags governing other fields — the commonest source of a corrupt entity — are better removed structurally than defended at runtime.
 
 ## Worth reading
 
