@@ -1,0 +1,23 @@
+{
+  "skill_name": "assemble-requirements-specification",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We've got a folder of 40 loose requirements organized as 'high-level' and 'detailed'. Help me restructure this into a proper spec.",
+      "expected_output": "Recommends reorganizing around business events instead of the high/low split, proposes the three-area structure (Problem / Solution / Business Events), and asks which decomposition hierarchy (use-case track vs. story track) the project wants to standardize on.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Some of our requirements have an ID, description, and priority; others just have a description. What schema should every requirement record have?",
+      "expected_output": "Proposes one consistent schema (Number, Description, Rationale, Type, Fit Criterion, Source, Satisfaction/Dissatisfaction, Conflicting/Dependent Requirements, Supporting Material, Version Number) applied to every requirement regardless of type, and flags missing IDs as a hard gate to fix immediately.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Write a goal statement for this project: \"reduce cart abandonment.\"",
+      "expected_output": "Produces Purpose/Advantage/Measurement structure, explicitly calling out that the Measurement line is what makes the goal later verifiable, not just aspirational.",
+      "files": []
+    }
+  ]
+}

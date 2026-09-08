@@ -1,0 +1,23 @@
+{
+  "skill_name": "decompose-requirement-into-scenario",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Here's a requirement from our stakeholder notes: \"Customers should be able to cancel a subscription.\" Break this down into actor, trigger, precondition, behavior, postcondition, and error paths.",
+      "expected_output": "A record naming the business event (e.g. 'Customer wants to cancel subscription'), a trigger distinct from the underlying event, a precondition tied to a prior event (subscription must exist/be active), the triggering actor vs. any participating actor, 3-10 normal-case steps in essence form, at least one alternative and one exception with their own postconditions, and a postcondition for the normal case.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We have a nightly job that flags overdue invoices and emails a reminder. What's the trigger and precondition for this, and what could go wrong?",
+      "expected_output": "Identifies this as a time-triggered business event (no external actor as trigger), states a precondition tied to invoice-creation/due-date having passed, and surfaces exceptions such as no email on file, email delivery failure, or the invoice being paid between detection and send.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Someone wrote this use case with 22 steps covering login, browsing, checkout, and payment all in one flow. Is that right?",
+      "expected_output": "Flags the step count as a signal the use case covers more than one business event, recommends splitting along event boundaries, and explains the isolation test (shared live processing vs. shared stored data only) for where to draw the line.",
+      "files": []
+    }
+  ]
+}

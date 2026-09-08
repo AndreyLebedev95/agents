@@ -1,0 +1,23 @@
+{
+  "skill_name": "write-atomic-requirement-statement",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A stakeholder said: \"I want a dashboard with a red banner that shows when inventory is low and also lets me export it to Excel.\" Turn this into proper requirement(s).",
+      "expected_output": "Splits into at least two atomic requirements (low-inventory alerting vs. export capability), rewrites the description away from the named mechanisms (red banner, Excel) toward the underlying capability, and gives each a rationale.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Classify this: \"The system shall encrypt data in transit using TLS 1.3 because we chose a cloud-hosted architecture.\" Is this a functional requirement?",
+      "expected_output": "Identifies this as a technological requirement (exists because of a chosen implementation, not an inherent business need), notes it should be tagged separately and held out of the business-requirements pass, and distinguishes it from a business-driven security requirement.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Here are two requirements with identical wording: \"The system shall display the user's order history.\" One came from a customer, one came from legal/compliance. Should they have the same priority?",
+      "expected_output": "Explains that rationale, not description, should drive priority; since the two have different rationales (convenience vs. compliance), they likely warrant different priority even with identical descriptions, and recommends writing out both rationales explicitly.",
+      "files": []
+    }
+  ]
+}

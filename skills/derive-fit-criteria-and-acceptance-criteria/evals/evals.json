@@ -1,0 +1,23 @@
+{
+  "skill_name": "derive-fit-criteria-and-acceptance-criteria",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "This requirement needs a fit criterion: \"The onboarding flow shall feel effortless.\" How do we make that testable?",
+      "expected_output": "Doesn't try to quantify 'effortless' directly; digs into the rationale to find a concrete consequence (e.g. completion rate, drop-off rate, time-to-complete, or support-ticket rate), proposes a proxy measure or panel-based test with a percentage threshold and tolerance, and avoids demanding 100%.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Given: precondition = 'customer has an active cart with at least one item', trigger = 'customer clicks Checkout', postcondition = 'payment is captured and order confirmation is sent'. Write Given/When/Then acceptance criteria for this.",
+      "expected_output": "Given/When/Then that directly reuses the supplied precondition/trigger/postcondition rather than inventing new wording, with Then stated as observable checkable facts.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We wrote 'the system shall respond fast' as a requirement, and the team keeps arguing about what 'fast' means. What should we do?",
+      "expected_output": "Recognizes the stalled-negotiation pattern: either split into more specific requirements (e.g. per operation) or reject 'fast' outright as unmeasurable until a scale and threshold are agreed; does not suggest shipping it unmeasured.",
+      "files": []
+    }
+  ]
+}

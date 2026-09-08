@@ -1,0 +1,23 @@
+{
+  "skill_name": "flag-requirement-gaps-as-open-questions",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our data model has an 'Invoice' entity that gets created when an order ships, but I don't see any requirement that reads it. Is that a problem?",
+      "expected_output": "Runs the CRUD-style check, flags the created-but-never-read entity as a likely missing business event or requirement rather than a data-modeling detail, and asks what should consume Invoice data.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We're assuming all customers have a verified email address on file. Should I just note that somewhere?",
+      "expected_output": "Distinguishes assumption vs. open issue, explains the assumption must resolve into a requirement (e.g. 'verify email during signup'), a constraint, or be dropped before the spec is released, and doesn't let it sit as a permanent unresolved note.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Review this requirement for gaps: \"The system shall allow managers to approve expense reports.\" (ID: REQ-0088, no rationale field filled in, no fit criterion yet.)",
+      "expected_output": "Flags the missing rationale and fit criterion via the completeness test, notes the missing restrictive complement ('only managers... and no more'), and asks whether this was deliberately left blank or overlooked rather than assuming either.",
+      "files": []
+    }
+  ]
+}
